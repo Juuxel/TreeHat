@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "tree_hat:item/spruce_in_a_pot"
+  }
+}

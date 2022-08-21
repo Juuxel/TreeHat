@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "S": { "item": "minecraft:oak_sapling" },
+    "P": { "item": "minecraft:flower_pot" }
+  },
+  "pattern": [
+    "S",
+    "P"
+  ],
+  "result": {
+    "item": "tree_hat:oak_in_a_pot"
+  }
+}
