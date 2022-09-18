@@ -16,5 +16,8 @@ public final class ThClient implements ClientModInitializer {
         ArmorRenderer.register(new TreeHatRenderer(TreeShapes.OAK), ThItems.OAK_IN_A_POT);
         ArmorRenderer.register(new TreeHatRenderer(TreeShapes.SPRUCE), ThItems.SPRUCE_IN_A_POT);
         ArmorRenderer.register(new TreeHatRenderer(TreeShapes.BIRCH), ThItems.BIRCH_IN_A_POT);
+        /*TreeHatRenderer.renderers.put(ThItems.OAK_IN_A_POT, new TreeHatRenderer(TreeShapes.OAK));
+        TreeHatRenderer.renderers.put(ThItems.SPRUCE_IN_A_POT, new TreeHatRenderer(TreeShapes.SPRUCE));
+        TreeHatRenderer.renderers.put(ThItems.BIRCH_IN_A_POT, new TreeHatRenderer(TreeShapes.BIRCH));*/
     }
 }

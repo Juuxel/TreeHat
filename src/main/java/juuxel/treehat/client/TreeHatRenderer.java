@@ -6,10 +6,11 @@
 
 package juuxel.treehat.client;
 
+import juuxel.treehat.mixin.client.AnimalModelAccessor;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -17,15 +18,12 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Util;
 
-import java.util.List;
-import java.util.Optional;
-
-public final class TreeHatRenderer implements ArmorRenderer {
+public final class TreeHatRenderer implements ArmorRenderer, ModelPart.CuboidConsumer {
     private final BlockState[][][] blocks;
     private final int width;
     private final int depth;
+    private float height;
 
     public TreeHatRenderer(BlockState[][][] blocks) {
         this.blocks = blocks;
@@ -40,18 +38,37 @@ public final class TreeHatRenderer implements ArmorRenderer {
     }
 
     @Override
+    public void accept(MatrixStack.Entry matrix, String path, int index, ModelPart.Cuboid cuboid) {
+        height = Math.max(height, Math.abs(cuboid.maxY - cuboid.minY));
+    }
+
+    private void findHeight(MatrixStack matrices, ModelPart modelPart) {
+        height = 0;
+        modelPart.forEachCuboid(matrices, this);
+    }
+
+    @Override
     public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, LivingEntity entity, EquipmentSlot slot, int light, BipedEntityModel<LivingEntity> contextModel) {
         matrices.push();
-        var head = contextModel.head;
+        var hat = contextModel.hat;
 
-        // Apply rotation from head model
-        matrices.scale(16, 16, 16);
-        head.rotate(matrices);
-        matrices.scale(1/16f, 1/16f, 1/16f);
+        // Apply child body transformations
+        if (contextModel.child) {
+            float childBodyScale = 1 / ((AnimalModelAccessor) contextModel).getInvertedChildBodyScale();
+            matrices.scale(childBodyScale, childBodyScale, childBodyScale);
+            matrices.translate(0, ((AnimalModelAccessor) contextModel).getChildBodyYOffset() / 16.0, 0);
+        }
 
-        matrices.translate(head.pivotX, head.pivotY - 0.625, head.pivotZ);
+        // Apply rotation from hat model
+        hat.rotate(matrices);
+
+        // Rescale
         matrices.scale(0.125f, 0.125f, 0.125f);
-        matrices.translate(-width * 0.5, 0, -depth * 0.5);
+
+        // Relocate to where we're drawing it
+        findHeight(matrices, hat);
+        matrices.translate(-width * 0.5, -height * 0.5, -depth * 0.5);
+
         for (int x = 0; x < blocks.length; x++) {
             var layer = blocks[x];
             for (int y = 0; y < layer.length; y++) {
