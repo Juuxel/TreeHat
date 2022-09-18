@@ -20,6 +20,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 
 public final class TreeHatRenderer implements ArmorRenderer, ModelPart.CuboidConsumer {
+    private static final float SCALE = 0.15f;
     private final BlockState[][][] blocks;
     private final int width;
     private final int depth;
@@ -63,7 +64,7 @@ public final class TreeHatRenderer implements ArmorRenderer, ModelPart.CuboidCon
         hat.rotate(matrices);
 
         // Rescale
-        matrices.scale(0.125f, 0.125f, 0.125f);
+        matrices.scale(SCALE, SCALE, SCALE);
 
         // Relocate to where we're drawing it
         findHeight(matrices, hat);
