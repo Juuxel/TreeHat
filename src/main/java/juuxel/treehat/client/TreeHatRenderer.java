@@ -55,7 +55,7 @@ public final class TreeHatRenderer implements ArmorRenderer, ModelPart.CuboidCon
 
         // Apply child body transformations
         if (contextModel.child) {
-            float childBodyScale = 1 / ((AnimalModelAccessor) contextModel).getInvertedChildBodyScale();
+            float childBodyScale = 1.5f / ((AnimalModelAccessor) contextModel).getInvertedChildBodyScale();
             matrices.scale(childBodyScale, childBodyScale, childBodyScale);
             matrices.translate(0, ((AnimalModelAccessor) contextModel).getChildBodyYOffset() / 16.0, 0);
         }
