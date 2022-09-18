@@ -13,8 +13,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 public final class ThClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        ArmorRenderer.register(new TreeHatRenderer(TreeHatRenderer.OAK), ThItems.OAK_IN_A_POT);
-        ArmorRenderer.register(new TreeHatRenderer(TreeHatRenderer.SPRUCE), ThItems.SPRUCE_IN_A_POT);
-        ArmorRenderer.register(new TreeHatRenderer(TreeHatRenderer.BIRCH), ThItems.BIRCH_IN_A_POT);
+        ArmorRenderer.register(new TreeHatRenderer(TreeShapes.OAK), ThItems.OAK_IN_A_POT);
+        ArmorRenderer.register(new TreeHatRenderer(TreeShapes.SPRUCE), ThItems.SPRUCE_IN_A_POT);
+        ArmorRenderer.register(new TreeHatRenderer(TreeShapes.BIRCH), ThItems.BIRCH_IN_A_POT);
     }
 }
